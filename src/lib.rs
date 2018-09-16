@@ -12,6 +12,8 @@
 mod disasm;
 mod types;
 mod opcode_data;
+mod format;
 
 pub use types::{rv_isa,rv_rm,rv_fence,rv_ireg,rv_freg,rv_codec,rv_op,rv_decode};
-pub use disasm::{disasm_inst, inst_length, decode_inst, format_inst};
+pub use disasm::{inst_length, decode_inst};
+pub use format::{disasm_inst, format_inst};
