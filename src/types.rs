@@ -1,9 +1,7 @@
 /* types */
 
 #[allow(non_camel_case_types)]
-pub type rv_inst=u64;
-#[allow(non_camel_case_types)]
-pub type rv_opcode=u16;
+pub type rv_inst = u64;
 
 /* enums */
 
@@ -15,24 +13,25 @@ pub enum rv_isa {
     rv128
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
-#[allow(non_camel_case_types)]
-pub enum rv_rm {
-    rne = 0,
-    rtz = 1,
-    rdn = 2,
-    rup = 3,
-    rmm = 4,
-    dyn = 7,
+pub struct rv_rm {
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
-#[allow(non_camel_case_types)]
-pub enum rv_fence {
-    i = 8,
-    o = 4,
-    r = 2,
-    w = 1,
+impl rv_rm {
+    pub const rne: u8 = 0;
+    pub const rtz: u8 = 1;
+    pub const rdn: u8 = 2;
+    pub const rup: u8 = 3;
+    pub const rmm: u8 = 4;
+    pub const dyn: u8 = 7;
+}
+
+pub struct rv_fence {
+}
+impl rv_fence {
+    pub const i: u8 = 8;
+    pub const o: u8 = 4;
+    pub const r: u8 = 2;
+    pub const w: u8 = 1;
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -75,7 +74,6 @@ pub enum rv_ireg {
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 #[allow(non_camel_case_types)]
 pub enum rvc_constraint {
-    end,
     rd_eq_ra,
     rd_eq_x0,
     rs1_eq_x0,
@@ -482,7 +480,7 @@ pub struct rv_decode {
     pub inst: u64,
     pub imm: i32,
     pub op: rv_op,
-    pub codec: u8,
+    pub codec: rv_codec,
     pub rd: u8,
     pub rs1: u8,
     pub rs2: u8,
@@ -490,8 +488,8 @@ pub struct rv_decode {
     pub rm: u8,
     pub pred: u8,
     pub succ: u8,
-    pub aq: u8,
-    pub rl: u8,
+    pub aq: bool,
+    pub rl: bool,
 }
 
 
