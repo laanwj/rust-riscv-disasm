@@ -1,23 +1,20 @@
-use disasm::{inst_length, decode_inst};
-use opcode_data::{opcode_data, rvcd};
+use disasm::{decode_inst, inst_length};
+use opcode_data::opcode_data;
 use types::*;
 
 /* register names */
 
 const rv_ireg_name_sym: &[&str] = &[
-    "zero", "ra",   "sp",   "gp",   "tp",   "t0",   "t1",   "t2",
-    "s0",   "s1",   "a0",   "a1",   "a2",   "a3",   "a4",   "a5",
-    "a6",   "a7",   "s2",   "s3",   "s4",   "s5",   "s6",   "s7",
-    "s8",   "s9",   "s10",  "s11",  "t3",   "t4",   "t5",   "t6",
+    "zero", "ra", "sp", "gp", "tp", "t0", "t1", "t2", "s0", "s1", "a0", "a1", "a2", "a3", "a4",
+    "a5", "a6", "a7", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11", "t3", "t4",
+    "t5", "t6",
 ];
 
 const rv_freg_name_sym: &[&str] = &[
-    "ft0",  "ft1",  "ft2",  "ft3",  "ft4",  "ft5",  "ft6",  "ft7",
-    "fs0",  "fs1",  "fa0",  "fa1",  "fa2",  "fa3",  "fa4",  "fa5",
-    "fa6",  "fa7",  "fs2",  "fs3",  "fs4",  "fs5",  "fs6",  "fs7",
-    "fs8",  "fs9",  "fs10", "fs11", "ft8",  "ft9",  "ft10", "ft11",
+    "ft0", "ft1", "ft2", "ft3", "ft4", "ft5", "ft6", "ft7", "fs0", "fs1", "fa0", "fa1", "fa2",
+    "fa3", "fa4", "fa5", "fa6", "fa7", "fs2", "fs3", "fs4", "fs5", "fs6", "fs7", "fs8", "fs9",
+    "fs10", "fs11", "ft8", "ft9", "ft10", "ft11",
 ];
-
 
 /* CSR names */
 
@@ -251,68 +248,66 @@ pub fn format_inst(tab: usize, dec: &rv_decode) -> String {
         match ch {
             'O' => {
                 buf.push_str(opcode_data[dec.op as usize].name);
-            },
+            }
             '(' => {
                 buf.push('(');
-            },
+            }
             ',' => {
                 buf.push(',');
-            },
+            }
             ')' => {
                 buf.push(')');
-            },
+            }
             '0' => {
                 buf.push_str(rv_ireg_name_sym[dec.rd as usize]);
-            },
+            }
             '1' => {
                 buf.push_str(rv_ireg_name_sym[dec.rs1 as usize]);
-            },
+            }
             '2' => {
                 buf.push_str(rv_ireg_name_sym[dec.rs2 as usize]);
-            },
+            }
             '3' => {
                 buf.push_str(rv_freg_name_sym[dec.rd as usize]);
-            },
+            }
             '4' => {
                 buf.push_str(rv_freg_name_sym[dec.rs1 as usize]);
-            },
+            }
             '5' => {
                 buf.push_str(rv_freg_name_sym[dec.rs2 as usize]);
-            },
+            }
             '6' => {
                 buf.push_str(rv_freg_name_sym[dec.rs3 as usize]);
-            },
+            }
             '7' => {
                 buf.push_str(&format!("{}", dec.rs1));
-            },
+            }
             'i' => {
                 buf.push_str(&format!("{}", dec.imm));
-            },
+            }
             'o' => {
                 buf.push_str(&format!("{}", dec.imm));
                 while buf.len() < tab * 2 {
                     buf.push(' ');
                 }
                 buf.push_str(&format!("# 0x{:x}", dec.pc + (dec.imm as u64)));
-            },
+            }
             'c' => {
                 if let Some(name) = csr_name(dec.imm & 0xfff) {
                     buf.push_str(name);
                 } else {
                     buf.push_str(&format!("0x{:03x}", dec.imm & 0xfff));
                 }
-            },
-            'r' => {
-                buf.push_str(match dec.rm {
-                    rv_rm::rne => "rne",
-                    rv_rm::rtz => "rtz",
-                    rv_rm::rdn => "rdn",
-                    rv_rm::rup => "rup",
-                    rv_rm::rmm => "rmm",
-                    rv_rm::dyn => "dyn",
-                    _ => "inv",
-                })
-            },
+            }
+            'r' => buf.push_str(match dec.rm {
+                rv_rm::rne => "rne",
+                rv_rm::rtz => "rtz",
+                rv_rm::rdn => "rdn",
+                rv_rm::rup => "rup",
+                rv_rm::rmm => "rmm",
+                rv_rm::dyn => "dyn",
+                _ => "inv",
+            }),
             'p' => {
                 if (dec.pred & rv_fence::i) != 0 {
                     buf.push('i');
@@ -326,7 +321,7 @@ pub fn format_inst(tab: usize, dec: &rv_decode) -> String {
                 if (dec.pred & rv_fence::w) != 0 {
                     buf.push('w');
                 }
-            },
+            }
             's' => {
                 if (dec.succ & rv_fence::i) != 0 {
                     buf.push('i');
@@ -340,24 +335,23 @@ pub fn format_inst(tab: usize, dec: &rv_decode) -> String {
                 if (dec.succ & rv_fence::w) != 0 {
                     buf.push('w');
                 }
-            },
+            }
             '\t' => {
                 while buf.len() < tab {
                     buf.push(' ');
                 }
-            },
+            }
             'A' => {
                 if dec.aq {
                     buf.push_str(".aq");
                 }
-            },
+            }
             'R' => {
                 if dec.rl {
                     buf.push_str(".rl");
                 }
-            },
-            _ => {
-            },
+            }
+            _ => {}
         }
     }
 
@@ -373,21 +367,26 @@ mod tests {
     use super::*;
 
     const inst_arr: &[(u64, &'static str)] = &[
-        (0x0,        "0000              illegal       "),
-        (0x1,        "0001              nop           "),
-        (0xd,        "000d              addi          zero,zero,3"),
-        (0x401,      "0401              mv            s0,s0"),
-        (0x404,      "0404              addi          s1,sp,512"),
-        (0x405,      "0405              addi          s0,s0,1"),
-        (0xf1402573, "f1402573          csrrs         a0,mhartid,zero"),
-        (0x597,      "00000597          auipc         a1,0                            # 0x10088"),
+        (0x0, "0000              illegal       "),
+        (0x1, "0001              nop           "),
+        (0xd, "000d              addi          zero,zero,3"),
+        (0x401, "0401              mv            s0,s0"),
+        (0x404, "0404              addi          s1,sp,512"),
+        (0x405, "0405              addi          s0,s0,1"),
+        (
+            0xf1402573,
+            "f1402573          csrrs         a0,mhartid,zero",
+        ),
+        (
+            0x597,
+            "00000597          auipc         a1,0                            # 0x10088",
+        ),
         (0x204002b7, "204002b7          lui           t0,541065216"),
-        (0x13,       "00000013          nop           "),
+        (0x13, "00000013          nop           "),
     ];
 
     #[test]
-    fn basic_tests()
-    {
+    fn basic_tests() {
         let mut pc: u64 = 0x10078;
         for (inst, expected) in inst_arr {
             let formatted = disasm_inst(rv_isa::rv64, pc, *inst);

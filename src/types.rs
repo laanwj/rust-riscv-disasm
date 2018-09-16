@@ -10,12 +10,11 @@ pub type rv_inst = u64;
 pub enum rv_isa {
     rv32,
     rv64,
-    rv128
+    rv128,
 }
 
 #[derive(Debug)]
-pub struct rv_rm {
-}
+pub struct rv_rm {}
 
 impl rv_rm {
     pub const rne: u8 = 0;
@@ -27,8 +26,7 @@ impl rv_rm {
 }
 
 #[derive(Debug)]
-pub struct rv_fence {
-}
+pub struct rv_fence {}
 
 impl rv_fence {
     pub const i: u8 = 8;
@@ -531,5 +529,3 @@ pub struct rv_decode {
     pub aq: bool,
     pub rl: bool,
 }
-
-

@@ -10,10 +10,10 @@
 //#![warn(missing_docs)]
 
 mod disasm;
-mod types;
-mod opcode_data;
 mod format;
+mod opcode_data;
+mod types;
 
-pub use types::{rv_isa,rv_rm,rv_fence,rv_ireg,rv_freg,rv_codec,rv_op,rv_decode};
-pub use disasm::{inst_length, decode_inst};
+pub use disasm::{decode_inst, inst_length};
 pub use format::{disasm_inst, format_inst};
+pub use types::{rv_codec, rv_decode, rv_fence, rv_freg, rv_ireg, rv_isa, rv_op, rv_rm};
