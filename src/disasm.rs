@@ -2366,3 +2366,32 @@ fn disasm_inst(isa: rv_isa, pc: u64, inst: rv_inst) -> String {
     decode_inst_lift_pseudo(&mut dec);
     format_inst(32, &dec)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const inst_arr: &[(u64, &'static str)] = &[
+        (0x0,        "0000              illegal       "),
+        (0x1,        "0001              nop           "),
+        (0xd,        "000d              addi          zero,zero,3"),
+        (0x401,      "0401              mv            s0,s0"),
+        (0x404,      "0404              addi          s1,sp,512"),
+        (0x405,      "0405              addi          s0,s0,1"),
+        (0xf1402573, "f1402573          csrrs         a0,mhartid,zero"),
+        (0x597,      "00000597          auipc         a1,0                            # 0x10088"),
+        (0x204002b7, "204002b7          lui           t0,541065216"),
+        (0x13,       "00000013          nop           "),
+    ];
+
+    #[test]
+    fn basic_tests()
+    {
+        let mut pc: u64 = 0x10078;
+        for (inst, expected) in inst_arr {
+            let formatted = disasm_inst(rv_isa::rv64, pc, *inst);
+            assert_eq!(&formatted, expected);
+            pc = pc + inst_length(*inst) as u64;
+        }
+    }
+}
