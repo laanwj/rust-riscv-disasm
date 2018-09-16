@@ -13,10 +13,7 @@ pub enum rv_isa {
     rv128,
 }
 
-#[derive(Debug)]
-pub struct rv_rm {}
-
-impl rv_rm {
+pub mod rv_rm {
     pub const rne: u8 = 0;
     pub const rtz: u8 = 1;
     pub const rdn: u8 = 2;
@@ -25,10 +22,7 @@ impl rv_rm {
     pub const dyn: u8 = 7;
 }
 
-#[derive(Debug)]
-pub struct rv_fence {}
-
-impl rv_fence {
+pub mod rv_fence {
     pub const i: u8 = 8;
     pub const o: u8 = 4;
     pub const r: u8 = 2;
