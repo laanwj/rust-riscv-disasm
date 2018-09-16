@@ -129,7 +129,7 @@ pub enum rvc_constraint {
     csr_eq_0xc02,
     csr_eq_0xc80,
     csr_eq_0xc81,
-    csr_eq_0xc82,
+    // csr_eq_0xc82,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
