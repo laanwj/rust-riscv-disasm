@@ -1147,13 +1147,11 @@ fn check_constraints(dec: &rv_decode, constraint: &[rvc_constraint]) -> bool {
                     return false;
                 }
             }
-            /*
             rvc_constraint::csr_eq_0xc82 => {
                 if !(imm == 0xc82) {
                     return false;
                 }
             }
-            */
         }
     }
     return true;
