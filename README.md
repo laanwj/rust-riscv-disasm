@@ -2,4 +2,5 @@
 
 RISC-V Disassembler with support for RV32/RV64/RV128 IMAFDC
 
-This is a port of Michael Clark's [riscv-disassembler](https://github.com/michaeljclark/riscv-disassembler) to Rust.
+This is a port of Michael Clark's [riscv-disassembler](https://github.com/michaeljclark/riscv-disassembler) to Rust
+(updated for commit `52636961`).
