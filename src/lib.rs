@@ -12,15 +12,5 @@
 mod disasm;
 mod types;
 
-/* functions */
-
-//size_t inst_length(rv_inst inst);
-//void disasm_inst(char *buf, size_t buflen, rv_isa isa, u64 pc, rv_inst inst);
-
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
+pub use types::{rv_isa,rv_rm,rv_fence,rv_ireg,rv_freg,rv_codec,rv_op,rv_decode};
+pub use disasm::{disasm_inst, inst_length, decode_inst, format_inst};

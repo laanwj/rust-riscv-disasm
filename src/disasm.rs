@@ -2125,7 +2125,6 @@ fn check_constraints(dec: &rv_decode, constraint: &[rvc_constraint]) -> bool {
                 return false;
             }
             },
-        _ => {},
         }
     }
     return true;
@@ -2133,7 +2132,7 @@ fn check_constraints(dec: &rv_decode, constraint: &[rvc_constraint]) -> bool {
 
 /* instruction length */
 
-fn inst_length(inst: rv_inst) -> usize {
+pub fn inst_length(inst: rv_inst) -> usize {
     /* NOTE: supports maximum instruction size of 64-bits */
 
     /* instruction length coding
@@ -2159,7 +2158,7 @@ fn inst_length(inst: rv_inst) -> usize {
 
 /* format instruction */
 
-fn format_inst(tab: usize, dec: &rv_decode) -> String {
+pub fn format_inst(tab: usize, dec: &rv_decode) -> String {
     let mut buf: String;
     match inst_length(dec.inst) {
         2 => {
@@ -2345,7 +2344,7 @@ fn decompress_inst_rv128(dec: &mut rv_decode) {
 
 /* disassemble instruction */
 
-fn disasm_inst(isa: rv_isa, pc: u64, inst: rv_inst) -> String {
+pub fn decode_inst(isa: rv_isa, pc: u64, inst: rv_inst) -> rv_decode {
     let mut dec: rv_decode = rv_decode {
         pc: pc,
         inst: inst,
@@ -2364,7 +2363,11 @@ fn disasm_inst(isa: rv_isa, pc: u64, inst: rv_inst) -> String {
     rv_isa::rv128 => decompress_inst_rv128(&mut dec),
     }
     decode_inst_lift_pseudo(&mut dec);
-    format_inst(32, &dec)
+    dec
+}
+
+pub fn disasm_inst(isa: rv_isa, pc: u64, inst: rv_inst) -> String {
+    format_inst(32, &decode_inst(isa, pc, inst))
 }
 
 #[cfg(test)]
