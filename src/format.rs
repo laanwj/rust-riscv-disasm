@@ -1,3 +1,5 @@
+use std::num::Wrapping;
+
 use disasm::{decode_inst, inst_length};
 use opcode_data::opcode_data;
 use types::*;
@@ -290,7 +292,7 @@ pub fn format_inst(tab: usize, dec: &rv_decode) -> String {
                 while buf.len() < tab * 2 {
                     buf.push(' ');
                 }
-                buf.push_str(&format!("# 0x{:x}", dec.pc + (dec.imm as u64)));
+                buf.push_str(&format!("# 0x{:x}", Wrapping(dec.pc) + Wrapping(dec.imm as u64)));
             }
             'c' => {
                 if let Some(name) = csr_name(dec.imm & 0xfff) {
