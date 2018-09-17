@@ -550,4 +550,3 @@ pub struct rv_opcode_data {
     pub decomp_rv128: rv_op,
     pub decomp_data: u8,
 }
-
