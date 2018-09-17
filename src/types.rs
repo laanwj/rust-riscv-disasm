@@ -523,3 +523,31 @@ pub struct rv_decode {
     pub aq: bool,
     pub rl: bool,
 }
+
+/* Internal representations of instructions */
+
+#[derive(Debug, Clone)]
+#[allow(non_camel_case_types)]
+pub struct rv_comp_data {
+    pub op: rv_op,
+    pub constraints: &'static [rvc_constraint],
+}
+
+pub mod rvcd {
+    pub const none: u8 = 0x0;
+    pub const imm_nz: u8 = 0x1;
+    pub const imm_nz_hint: u8 = 0x2;
+}
+
+#[derive(Debug, Clone)]
+pub struct rv_opcode_data {
+    pub name: &'static str,
+    pub codec: rv_codec,
+    pub format: &'static str,
+    pub pseudo: &'static [rv_comp_data],
+    pub decomp_rv32: rv_op,
+    pub decomp_rv64: rv_op,
+    pub decomp_rv128: rv_op,
+    pub decomp_data: u8,
+}
+

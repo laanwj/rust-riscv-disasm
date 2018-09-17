@@ -1,4 +1,4 @@
-use opcode_data::{opcode_data, rvcd};
+use opcode_data::opcode_data;
 use types::*;
 
 /* decode opcode */
