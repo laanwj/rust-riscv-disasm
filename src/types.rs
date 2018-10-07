@@ -179,7 +179,7 @@ pub enum rv_codec {
     css_sqsp,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 #[allow(non_camel_case_types)]
 pub enum rv_op {
     illegal = 0,
@@ -501,6 +501,13 @@ pub enum rv_op {
     fsflags = 316,
     fsrmi = 317,
     fsflagsi = 318,
+}
+
+impl rv_op {
+    pub fn name(self) -> String {
+        use opcode_data::opcode_data;
+        opcode_data[self as usize].name.to_string()
+    }
 }
 
 /* structures */
